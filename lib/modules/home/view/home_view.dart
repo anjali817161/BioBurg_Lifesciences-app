@@ -1,5 +1,6 @@
 import 'package:bioburg_lifescience/modules/home/controller/home_controller.dart';
-import 'package:bioburg_lifescience/modules/home/widgets/side_drawer.dart';
+import 'package:bioburg_lifescience/modules/home/widgets/category_drawer.dart';
+import 'package:bioburg_lifescience/modules/navbar/view/account_drawer.dart';
 import 'package:bioburg_lifescience/modules/subcategories/view/sub_categories.dart';
 import 'package:bioburg_lifescience/modules/wishlist/view/wishlist.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -126,10 +128,10 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     'assets/images/med3.png',
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
 
       // 🔵 TOP BLUE BAR (WEB जैसा)
@@ -141,15 +143,22 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         actions: [
-          GestureDetector(
-            onTap: () {
-             Get.to(() => WishlistPage());
-            },
-            child: Icon(Icons.favorite, color: Colors.white)),
-          const SizedBox(width: 15),
+         
           Icon(Icons.shopping_cart, color: Colors.white),
           const SizedBox(width: 15),
+           GestureDetector(
+            onTap: () {
+               _scaffoldKey.currentState!.openEndDrawer();
+            },
+            child: Icon(Icons.menu, color: Colors.white)),
+          const SizedBox(width: 15),
         ],
+      ),
+
+        /// 👉 RIGHT SIDE DRAWER
+      endDrawer: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8, // 50% width drawer
+        child: const AccountDrawer(),
       ),
 
       body: SingleChildScrollView(

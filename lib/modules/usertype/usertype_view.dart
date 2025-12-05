@@ -49,17 +49,9 @@ class _SelectUserTypeViewState extends State<SelectUserTypeView>
         userType = 'User';
         break;
       case 1:
-        userType = 'B2B';
+        userType = 'Corporate';
         break;
-      case 2:
-        userType = 'Vendor';
-        break;
-      case 3:
-        userType = 'B2C';
-        break;
-        case 4:
-        userType = 'Marketing';
-        break;
+     
     }
     Get.to(() => LoginSignupPage(userType: userType));
   }
@@ -167,27 +159,27 @@ class _SelectUserTypeViewState extends State<SelectUserTypeView>
                       index: 0,
                     ),
                     buildBox(
-                      title: "B2B login",
+                      title: "Corporate login",
                       image: "assets/images/med1.png",
                       index: 1,
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    buildBox(
-                      title: "Vendor login",
-                      image: "assets/images/doctor2.png",
-                      index: 2,
-                    ),
-                    buildBox(
-                      title: "B2C login",
-                      image: "assets/images/doctor3.png",
-                      index: 3,
-                    ),
-                  ],
-                ),
+                // const SizedBox(height: 20),
+                // Row(
+                //   children: [
+                //     buildBox(
+                //       title: "Vendor login",
+                //       image: "assets/images/doctor2.png",
+                //       index: 2,
+                //     ),
+                //     buildBox(
+                //       title: "B2C login",
+                //       image: "assets/images/doctor3.png",
+                //       index: 3,
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ],

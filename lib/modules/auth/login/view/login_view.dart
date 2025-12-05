@@ -27,6 +27,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   final _signPass = TextEditingController();
   bool _signObscure = true;
 
+  final _signFirstName = TextEditingController();
+final _signLastName = TextEditingController();
+final _signUsername = TextEditingController();
+final _signAddress = TextEditingController();
+
+String gender = "Male";
+
+
   @override
   void dispose() {
     _loginEmail.dispose();
@@ -217,6 +225,26 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
+
+Widget _genderOption(String value) {
+  return Row(
+    children: [
+      Radio<String>(
+        value: value,
+        groupValue: gender,
+        activeColor: Colors.blue,
+        onChanged: (v) => setState(() => gender = v!),
+      ),
+      Text(
+        value,
+        style: TextStyle(color: Colors.blue[900]),
+      ),
+      const SizedBox(width: 10),
+    ],
+  );
+}
+
+
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
@@ -288,11 +316,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                           children: [
                             _textField(
                               controller: _loginEmail,
-                              hint: 'Email Address',
+                              hint: 'Email Address/ Mobile number',
                               prefix: Icons.email_outlined,
                               keyboardType: TextInputType.emailAddress,
                               validator: (v) => v == null || !v.contains('@')
-                                  ? 'Enter valid email'
+                                  ? 'Enter valid email/number'
                                   : null,
                             ),
                             const SizedBox(height: 12),
@@ -334,53 +362,121 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                         ),
                       ),
                       secondChild: Form(
-                        key: _signupKey,
-                        child: Column(
-                          children: [
-                            _textField(
-                              controller: _signName,
-                              hint: 'Full Name',
-                              prefix: Icons.person_outline,
-                              validator: (v) =>
-                                  v == null || v.isEmpty ? 'Enter name' : null,
-                            ),
-                            const SizedBox(height: 12),
-                            _textField(
-                              controller: _signEmail,
-                              hint: 'Email Address',
-                              prefix: Icons.email_outlined,
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (v) => v == null || !v.contains('@')
-                                  ? 'Enter valid email'
-                                  : null,
-                            ),
-                            const SizedBox(height: 12),
-                            _textField(
-                              controller: _signPass,
-                              hint: 'Password',
-                              prefix: Icons.lock_outline,
-                              obscure: _signObscure,
-                              suffix: IconButton(
-                                icon: Icon(
-                                  _signObscure
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: Colors.blue[900],
-                                ),
-                                onPressed: () => setState(
-                                  () => _signObscure = !_signObscure,
-                                ),
-                              ),
-                              validator: (v) => v == null || v.length < 6
-                                  ? 'Min 6 chars'
-                                  : null,
-                            ),
-                            const SizedBox(height: 16),
-                            _gradientButton('Signup', _onSignup),
-                            const SizedBox(height: 18),
-                          ],
-                        ),
-                      ),
+  key: _signupKey,
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      // FIRST NAME + LAST NAME
+      Row(
+        children: [
+          Expanded(
+            child: _textField(
+              controller: _signFirstName,
+              hint: 'First Name',
+              prefix: Icons.person_outline,
+              validator: (v) =>
+                  v == null || v.isEmpty ? 'Enter First Name' : null,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: _textField(
+              controller: _signLastName,
+              hint: 'Last Name',
+              prefix: Icons.person_outline,
+              validator: (v) =>
+                  v == null || v.isEmpty ? 'Enter Last Name' : null,
+            ),
+          ),
+        ],
+      ),
+
+      const SizedBox(height: 12),
+
+      // USERNAME
+      _textField(
+        controller: _signUsername,
+        hint: 'Username',
+        prefix: Icons.account_circle_outlined,
+        validator: (v) =>
+            v == null || v.isEmpty ? 'Enter Username' : null,
+      ),
+
+      const SizedBox(height: 12),
+
+      // EMAIL
+      _textField(
+        controller: _signEmail,
+        hint: 'Email Address',
+        prefix: Icons.email_outlined,
+        keyboardType: TextInputType.emailAddress,
+        validator: (v) =>
+            v == null || !v.contains('@') ? 'Enter valid email' : null,
+      ),
+
+      const SizedBox(height: 12),
+
+      // GENDER
+      Align(
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6, bottom: 4),
+          child: Text(
+            "Gender",
+            style: TextStyle(
+                color: Colors.blue[900],
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      Row(
+        children: [
+          _genderOption("Male"),
+          _genderOption("Female"),
+          _genderOption("Other"),
+        ],
+      ),
+
+      const SizedBox(height: 12),
+
+      // FULL ADDRESS
+      _textField(
+        controller: _signAddress,
+        hint: 'Full Address',
+        prefix: Icons.location_on_outlined,
+        validator: (v) =>
+            v == null || v.isEmpty ? 'Enter address' : null,
+      ),
+
+      const SizedBox(height: 12),
+
+      // PASSWORD
+      _textField(
+        controller: _signPass,
+        hint: 'Password',
+        prefix: Icons.lock_outline,
+        obscure: _signObscure,
+        suffix: IconButton(
+          icon: Icon(
+            _signObscure ? Icons.visibility_off : Icons.visibility,
+            color: Colors.blue[900],
+          ),
+          onPressed: () => setState(() => _signObscure = !_signObscure),
+        ),
+        validator: (v) =>
+            v == null || v.length < 6 ? 'Min 6 chars' : null,
+      ),
+
+      const SizedBox(height: 20),
+
+      // SIGNUP BUTTON
+      _gradientButton('Register', _onSignup),
+
+      const SizedBox(height: 18),
+    ],
+  ),
+),
+
                       crossFadeState: _selectedIndex == 0
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,

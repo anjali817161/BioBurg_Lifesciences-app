@@ -35,7 +35,7 @@ class MainNavigation extends StatelessWidget {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
             BottomNavigationBarItem(icon: Icon(Icons.trending_up_rounded), label: "Trending"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+            BottomNavigationBarItem(icon: Icon(Icons.percent_outlined), label: "Offers"),
           ],
         ),
       ),

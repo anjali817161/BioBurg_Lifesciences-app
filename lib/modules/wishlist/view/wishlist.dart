@@ -1,3 +1,4 @@
+import 'package:bioburg_lifescience/modules/product_details/view/product_details.dart';
 import 'package:bioburg_lifescience/modules/wishlist/controller/wishlist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -75,115 +76,121 @@ class WishlistPage extends StatelessWidget {
                     final item = controller.wishlist[index];
                     final imageIndex = index % assetImages.length;
 
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.shade200,
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // PRODUCT IMAGE
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(14),
-                                  topRight: Radius.circular(14),
-                                ),
-                                child: Image.asset(
-                                  assetImages[imageIndex],
-                                  height: 120,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              // REMOVE FROM WISHLIST BUTTON
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: GestureDetector(
-                                  onTap: () => controller.removeFromWishlist(item["id"]),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.9),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to product details
+                        Get.to(() => ProductDetailsPage());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade200,
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // PRODUCT IMAGE
+                            Stack(
                               children: [
-                                // NAME
-                                Text(
-                                  item["name"],
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black87,
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(14),
+                                    topRight: Radius.circular(14),
+                                  ),
+                                  child: Image.asset(
+                                    assetImages[imageIndex],
+                                    height: 120,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-
-                                const SizedBox(height: 6),
-
-                                // PRICE
-                                Text(
-                                  item["price"],
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black87,
+                                // REMOVE FROM WISHLIST BUTTON
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: GestureDetector(
+                                    onTap: () => controller.removeFromWishlist(item["id"]),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(6),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.9),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
+                                        size: 20,
+                                      ),
+                                    ),
                                   ),
                                 ),
-
-                                const SizedBox(height: 4),
-
-                                // OLD PRICE (if available)
-                                if (item["old_price"] != null)
-                                  Text(
-                                    item["old_price"],
-                                    style: TextStyle(
-                                      decoration: TextDecoration.lineThrough,
-                                      color: Colors.grey.shade600,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-
-                                // OFFER (if available)
-                                if (item["offer"] != null)
-                                  Text(
-                                    item["offer"],
-                                    style: const TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
                               ],
                             ),
-                          ),
-                        ],
+                      
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // NAME
+                                  Text(
+                                    item["name"],
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                      
+                                  const SizedBox(height: 6),
+                      
+                                  // PRICE
+                                  Text(
+                                    item["price"],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                      
+                                  const SizedBox(height: 4),
+                      
+                                  // OLD PRICE (if available)
+                                  if (item["old_price"] != null)
+                                    Text(
+                                      item["old_price"],
+                                      style: TextStyle(
+                                        decoration: TextDecoration.lineThrough,
+                                        color: Colors.grey.shade600,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                      
+                                  // OFFER (if available)
+                                  if (item["offer"] != null)
+                                    Text(
+                                      item["offer"],
+                                      style: const TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
