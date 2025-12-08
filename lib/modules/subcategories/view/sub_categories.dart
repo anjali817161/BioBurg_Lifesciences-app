@@ -175,14 +175,13 @@ class SubCategories extends StatelessWidget {
         // Navigate to product details
        Get.to(() => ProductDetailsPage());
       },
-      child: Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // IMAGE + LIKE BUTTON
-            Stack(
+      child: Stack(
+        children: [
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // PRODUCT IMAGE
+                // IMAGE
                 Container(
                   width: 95,
                   height: 95,
@@ -194,109 +193,108 @@ class SubCategories extends StatelessWidget {
                     ),
                   ),
                 ),
-        
-                // ❤️ LIKE BUTTON
-                Positioned(
-                  right: 6,
-                  top: 6,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.85),
-                    ),
-                    child: const Icon(
-                      Icons.favorite_border,
-                      size: 18,
-                      color: Colors.red,
-                    ),
+
+                const SizedBox(width: 12),
+
+                // PRODUCT DETAILS
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // PRODUCT TITLE
+                      Text(
+                        p["title"],
+                        maxLines: 2,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          height: 1.3,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+
+                      // RATING
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade600,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              p["rating"],
+                              style: const TextStyle(color: Colors.white, fontSize: 11),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "${p["rating_count"]} reviews",
+                            style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+
+                      // PRICE
+                      Row(
+                        children: [
+                          Text(
+                            p["price"],
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            p["old_price"],
+                            style: TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              color: Colors.grey.shade600,
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            p["offer"],
+                            style: const TextStyle(
+                              color: Colors.green,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+
+                      // ADD BUTTON + COUNTER
+                      _addButton(p),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
-        
-            const SizedBox(width: 12),
-        
-            // PRODUCT DETAILS
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // PRODUCT TITLE
-                  Text(
-                    p["title"],
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      height: 1.3,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-        
-                  // RATING
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Colors.green.shade600,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          p["rating"],
-                          style: const TextStyle(color: Colors.white, fontSize: 11),
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        "${p["rating_count"]} reviews",
-                        style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-        
-                  // PRICE
-                  Row(
-                    children: [
-                      Text(
-                        p["price"],
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        p["old_price"],
-                        style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: Colors.grey.shade600,
-                          fontSize: 12,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        p["offer"],
-                        style: const TextStyle(
-                          color: Colors.green,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-        
-                  // ADD BUTTON + COUNTER
-                  _addButton(p),
-                ],
+          ),
+          // ❤️ LIKE BUTTON
+          Positioned(
+            right: 6,
+            top: 6,
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0.85),
               ),
-            )
-          ],
-        ),
+              child: const Icon(
+                Icons.favorite_border,
+                size: 18,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

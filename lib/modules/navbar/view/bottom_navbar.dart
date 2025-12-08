@@ -1,5 +1,4 @@
-import 'package:bioburg_lifescience/modules/dummy.dart';
-import 'package:bioburg_lifescience/modules/dummy_account.dart';
+import 'package:bioburg_lifescience/modules/cart/view/cart_view.dart';
 import 'package:bioburg_lifescience/modules/navbar/controller/navigation_controller.dart';
 import 'package:bioburg_lifescience/modules/trending/view/trending_view.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +15,7 @@ class MainNavigation extends StatelessWidget {
     HomeView(),
     CategoriesPage(),
    TrendingProductsPage(),
-    AccountPage(),
-  ];
+CartPage()  ];
 
   @override
   Widget build(BuildContext context) {

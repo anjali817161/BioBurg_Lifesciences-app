@@ -18,22 +18,22 @@ class ProductDetailsPage extends StatelessWidget {
 
       bottomNavigationBar: _bottomAddToCartBar(),
       body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _productImage(),
-                _titleSection(),
-                _priceSection(),
-                Divider(),
-                _deliverySection(),
-                Divider(),
-                _aboutSection(),
-                Divider(),
-                _relatedProductsTitle(),
-                _relatedGrid(),
-              ],
-            ),
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _productImage(),
+            _titleSection(),
+            _priceSection(),
+            Divider(),
+            _deliverySection(),
+            Divider(),
+            _aboutSection(),
+            Divider(),
+            _relatedProductsTitle(),
+            _relatedGrid(),
+          ],
+        ),
+      ),
     );
   }
 

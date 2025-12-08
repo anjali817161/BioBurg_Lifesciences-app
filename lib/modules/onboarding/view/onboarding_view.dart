@@ -1,4 +1,5 @@
 import 'package:bioburg_lifescience/modules/auth/login/view/login_view.dart';
+import 'package:bioburg_lifescience/modules/auth/login/view/number_login.dart';
 import 'package:bioburg_lifescience/modules/home/view/home_view.dart';
 import 'package:bioburg_lifescience/modules/navbar/view/bottom_navbar.dart';
 import 'package:bioburg_lifescience/modules/onboarding/controller/onboarding_controller.dart';
@@ -123,7 +124,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: ElevatedButton(
                 onPressed: () {
-                  Get.offAll(() => SelectUserTypeView());
+                  Get.offAll(() => LoginScreen());
                   // Get.offAll(() => MainNavigation());
                 },
                 child: const Text(
