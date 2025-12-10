@@ -1,65 +1,73 @@
+import 'package:bioburg_lifescience/modules/home/controller/categories_controller.dart';
 import 'package:bioburg_lifescience/modules/subcategories/view/sub_categories.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 
-class CategoriesPage extends StatelessWidget {
+class CategoriesPage extends StatefulWidget {
   CategoriesPage({super.key});
 
-  final List<Map<String, String>> categories = [
-    {
-      "name": "Homeopathy",
-      "image": "https://cdn-icons-png.flaticon.com/512/1047/1047711.png"
-    },
-    {
-      "name": "Unani",
-      "image": "https://cdn-icons-png.flaticon.com/512/1047/1047713.png"
-    },
-    {
-      "name": "Oral Care",
-      "image": "https://cdn-icons-png.flaticon.com/512/483/483361.png"
-    },
-    {
-      "name": "Baby Care",
-      "image": "https://cdn-icons-png.flaticon.com/512/3209/3209885.png"
-    },
-    {
-      "name": "Sexual Wellness",
-      "image": "https://cdn-icons-png.flaticon.com/512/1048/1048940.png"
-    },
-    {
-      "name": "Personal Care",
-      "image": "https://cdn-icons-png.flaticon.com/512/1046/1046751.png"
-    },
-  ];
+  @override
+  State<CategoriesPage> createState() => _CategoriesPageState();
+}
 
+class _CategoriesPageState extends State<CategoriesPage> {
+  // final List<Map<String, String>> categories = [
+
+  final CategoryController controller = Get.put(CategoryController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+    appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.blue.shade300,
+                Colors.blue.shade200,
+                Colors.white.withOpacity(0.3),
+              ],
+              stops: const [0.0, 0.6, 1.0],
+            ),
+          ),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            
+            title: Row(
+              children: [
+                Text(
+                  "Categories",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    letterSpacing: 1.2,
+                    color: Colors.blue.shade800,
+                  ),
+                ),
+               
+              ],
+            ),
+           
+          ),
+        ),
+      ),
 
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          // 🔹 Beautiful Heading
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 55, 18, 10),
-            child: Text(
-              "Categories",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: Colors.blue.shade800,
-              ),
-            ),
-          ),
 
           // 🔹 Grid Section
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(14),
               child: GridView.builder(
-                itemCount: categories.length,
+                itemCount: controller.categories.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 18,
@@ -67,9 +75,12 @@ class CategoriesPage extends StatelessWidget {
                   childAspectRatio: 0.95,
                 ),
                 itemBuilder: (context, index) {
+
+                  final cat = controller.categories[index];
                   return _buildCategoryCard(
-                    name: categories[index]["name"]!,
-                    image: categories[index]["image"]!,
+                    name: cat.title,
+                    image: cat.imageUrl,
+                    id: cat.id
                   );
                 },
               ),
@@ -80,11 +91,11 @@ class CategoriesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard({required String name, required String image}) {
+  Widget _buildCategoryCard({required String name, required String image, required String id}) {
     return GestureDetector(
       onTap: () {
         // Handle category card tap
-        Get.to(() => SubCategories(categoryName: name));
+        Get.to(() => SubCategoriesPage(categoryId: id, categoryTitle: name));
       },
       child: Container(
         decoration: BoxDecoration(

@@ -218,53 +218,38 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.withOpacity(0.2),
-                      blurRadius: 6,
-                      spreadRadius: 1,
-                    ),
-                  ],
-                ),
-                child: Icon(
-                  Icons.local_hospital,
-                  color: Colors.blue.shade600,
-                  size: 28,
-                ),
+               
+                child:  Image.asset(
+                "assets/images/app_logo.jpeg",
+                height: 90,
+              ),
               ),
             ),
-            title: Row(
-              children: [
-                Text(
-                  "BioBurg",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    letterSpacing: 1.2,
-                    color: Colors.blue.shade800,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade600,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Text(
-                    "LifeScience",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            title: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  mainAxisSize: MainAxisSize.min,
+  children: [
+    Text(
+      "BioBurg",
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 24,
+        letterSpacing: 1.2,
+        color: Colors.blue.shade800,
+      ),
+    ),
+    const SizedBox(height: 1),
+    Text(
+      "जन औषधि केन्द्र",
+      style: TextStyle(
+        fontSize: 12,
+        color: Colors.blue.shade600,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  ],
+),
+
             actions: [
               Container(
                 margin: const EdgeInsets.only(right: 8),
@@ -319,7 +304,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 90),
+            const SizedBox(height: 110),
 
             // 🔝 TOP CATEGORIES
             _buildTopMenu(),
@@ -788,6 +773,7 @@ Widget horizontalCategoryCards() {
             child: GestureDetector(
               onTap: () {
                 // 👉 Navigate to category products page
+                Get.to(() => SubCategoriesPage(categoryId: item.id, categoryTitle: item.title));
               },
               child: Container(
                 width: 100,
@@ -961,7 +947,7 @@ Widget horizontalCategoryCards() {
             },
             child: GestureDetector(
               onTap: () {
-                Get.to(() => SubCategories(categoryName: item["title"]!));
+                // Get.to(() => SubCategories(categoryName: item["title"]!));
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -1,5 +1,7 @@
 import 'package:bioburg_lifescience/modules/cart/view/cart_view.dart';
 import 'package:bioburg_lifescience/modules/profile/view/user_profile.dart';
+import 'package:bioburg_lifescience/modules/vendor/auth/login/view/login_view.dart';
+import 'package:bioburg_lifescience/modules/vendor/auth/register/view/register_view.dart';
 import 'package:bioburg_lifescience/modules/wishlist/view/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -212,14 +214,8 @@ class _AccountDrawerState extends State<AccountDrawer> {
                     onTap: () {
                       Get.back();
                       // TODO: Navigate to Vendor Login Page
-                      // Get.to(() => VendorLoginPage());
-                      Get.snackbar(
-                        "Vendor Login",
-                        "Navigate to Vendor Login Page",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.blue,
-                        colorText: Colors.white,
-                      );
+                      Get.to(() => VendorLoginPage());
+                     
                     },
                   ),
                   Divider(color: Colors.white.withOpacity(0.2), height: 1),
@@ -229,14 +225,8 @@ class _AccountDrawerState extends State<AccountDrawer> {
                     onTap: () {
                       Get.back();
                       // TODO: Navigate to Vendor Registration Page
-                      // Get.to(() => VendorRegistrationPage());
-                      Get.snackbar(
-                        "Vendor Registration",
-                        "Navigate to Vendor Registration Page",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.blue,
-                        colorText: Colors.white,
-                      );
+                      Get.to(() => VendorRegistrationMain());
+                    
                     },
                   ),
                 ],
