@@ -1,4 +1,5 @@
 import 'package:bioburg_lifescience/modules/cart/view/cart_view.dart';
+import 'package:bioburg_lifescience/modules/dynamicSections/view/dynamic_section_view.dart';
 import 'package:bioburg_lifescience/modules/navbar/controller/navigation_controller.dart';
 import 'package:bioburg_lifescience/modules/trending/view/trending_view.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class MainNavigation extends StatelessWidget {
     HomeView(),
     CategoriesPage(),
    TrendingProductsPage(),
-CartPage()  ];
+SectionsView()  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ CartPage()  ];
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
             BottomNavigationBarItem(icon: Icon(Icons.trending_up_rounded), label: "Trending"),
-            BottomNavigationBarItem(icon: Icon(Icons.percent_outlined), label: "Offers"),
+            BottomNavigationBarItem(icon: Icon(Icons.more_horiz_outlined), label: "more"),
           ],
         ),
       ),

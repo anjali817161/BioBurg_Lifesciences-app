@@ -14,7 +14,10 @@ class AccountDrawer extends StatefulWidget {
 }
 
 class _AccountDrawerState extends State<AccountDrawer> {
-  bool isCorporateExpanded = false;
+  bool isCoLoginExpanded = false;
+  bool isB2BExpanded = false;
+  bool isFranchiseExpanded = false;
+  bool isVendorsExpanded = false;
 
   // TODO: Replace with actual user data from your auth controller
   String userName = "User Name";
@@ -90,8 +93,141 @@ class _AccountDrawerState extends State<AccountDrawer> {
                 children: [
                   const SizedBox(height: 8),
                   
-                  // CORPORATE LOGIN SECTION (Special Design)
-                  _buildCorporateSection(),
+                  // CO-LOGIN DROPDOWN
+                  _buildDropdownSection(
+                    title: "Co-Login",
+                    icon: Icons.business,
+                    isExpanded: isCoLoginExpanded,
+                    onTap: () {
+                      setState(() {
+                        isCoLoginExpanded = !isCoLoginExpanded;
+                      });
+                    },
+                    dropdownItems: [
+                      _buildDropdownItem(
+                        icon: Icons.login,
+                        title: "Marketing",
+                        onTap: () {
+                          Get.back();
+                          Get.to(() => VendorLoginPage());
+                        },
+                      ),
+                      Divider(color: Colors.white.withOpacity(0.2), height: 1),
+                      _buildDropdownItem(
+                        icon: Icons.app_registration,
+                        title: "Delivery",
+                        onTap: () {
+                          Get.back();
+                          Get.to(() => VendorRegistrationMain());
+                        },
+                      ),
+                    ],
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // B2B/B2C DROPDOWN
+                  _buildDropdownSection(
+                    title: "B2B/B2C",
+                    icon: Icons.business_center,
+                    isExpanded: isB2BExpanded,
+                    onTap: () {
+                      setState(() {
+                        isB2BExpanded = !isB2BExpanded;
+                      });
+                    },
+                    dropdownItems: [
+                      _buildDropdownItem(
+                        icon: Icons.login,
+                        title: "B2B Login",
+                        onTap: () {
+                          Get.back();
+                          // TODO: Navigate to B2B Login Page
+                          Get.to(() => VendorLoginPage());
+                        },
+                      ),
+                      Divider(color: Colors.white.withOpacity(0.2), height: 1),
+                      _buildDropdownItem(
+                        icon: Icons.app_registration,
+                        title: "B2B/B2C Register",
+                        onTap: () {
+                          Get.back();
+                          // TODO: Navigate to B2B Register Page
+                          Get.to(() => VendorRegistrationMain());
+                        },
+                      ),
+                    ],
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // FRANCHISE DROPDOWN
+                  _buildDropdownSection(
+                    title: "Franchise",
+                    icon: Icons.store,
+                    isExpanded: isFranchiseExpanded,
+                    onTap: () {
+                      setState(() {
+                        isFranchiseExpanded = !isFranchiseExpanded;
+                      });
+                    },
+                    dropdownItems: [
+                      _buildDropdownItem(
+                        icon: Icons.login,
+                        title: "Login",
+                        onTap: () {
+                          Get.back();
+                          // TODO: Navigate to Franchise Login Page
+                          Get.to(() => VendorLoginPage());
+                        },
+                      ),
+                      Divider(color: Colors.white.withOpacity(0.2), height: 1),
+                      _buildDropdownItem(
+                        icon: Icons.app_registration,
+                        title: "Register",
+                        onTap: () {
+                          Get.back();
+                          // TODO: Navigate to Franchise Register Page
+                          Get.to(() => VendorRegistrationMain());
+                        },
+                      ),
+                    ],
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // VENDORS DROPDOWN
+                  _buildDropdownSection(
+                    title: "Vendors",
+                    icon: Icons.group,
+                    isExpanded: isVendorsExpanded,
+                    onTap: () {
+                      setState(() {
+                        isVendorsExpanded = !isVendorsExpanded;
+                      });
+                    },
+                    dropdownItems: [
+                      _buildDropdownItem(
+                        icon: Icons.login,
+                        title: "Vendor Login",
+                        onTap: () {
+                          Get.back();
+                          // TODO: Navigate to Vendor Login Page
+                          Get.to(() => VendorLoginPage());
+                        },
+                      ),
+                      Divider(color: Colors.white.withOpacity(0.2), height: 1),
+                      _buildDropdownItem(
+                        icon: Icons.app_registration,
+                        title: "Vendor Register",
+                        onTap: () {
+                          Get.back();
+                          // TODO: Navigate to Vendor Register Page
+                          Get.to(() => VendorRegistrationMain());
+                        },
+                      ),
+                    ],
+                  ),
                   
                   const SizedBox(height: 8),
                   Divider(color: Colors.blue.shade200, thickness: 2),
@@ -138,7 +274,13 @@ class _AccountDrawerState extends State<AccountDrawer> {
     );
   }
 
-  Widget _buildCorporateSection() {
+  Widget _buildDropdownSection({
+    required String title,
+    required IconData icon,
+    required bool isExpanded,
+    required VoidCallback onTap,
+    required List<Widget> dropdownItems,
+  }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
@@ -158,23 +300,19 @@ class _AccountDrawerState extends State<AccountDrawer> {
       ),
       child: Column(
         children: [
-          // Main Corporate Login Button
+          // Main Button
           InkWell(
-            onTap: () {
-              setState(() {
-                isCorporateExpanded = !isCorporateExpanded;
-              });
-            },
+            onTap: onTap,
             borderRadius: BorderRadius.circular(12),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 children: [
-                  Icon(Icons.business, color: Colors.white, size: 26),
+                  Icon(icon, color: Colors.white, size: 26),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Text(
-                      "Corporate Login",
+                      title,
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
@@ -183,7 +321,7 @@ class _AccountDrawerState extends State<AccountDrawer> {
                     ),
                   ),
                   Icon(
-                    isCorporateExpanded 
+                    isExpanded 
                         ? Icons.keyboard_arrow_up 
                         : Icons.keyboard_arrow_down,
                     color: Colors.white,
@@ -208,31 +346,11 @@ class _AccountDrawerState extends State<AccountDrawer> {
               child: Column(
                 children: [
                   Divider(color: Colors.white.withOpacity(0.3), height: 1),
-                  _buildDropdownItem(
-                    icon: Icons.login,
-                    title: "Vendor Login",
-                    onTap: () {
-                      Get.back();
-                      // TODO: Navigate to Vendor Login Page
-                      Get.to(() => VendorLoginPage());
-                     
-                    },
-                  ),
-                  Divider(color: Colors.white.withOpacity(0.2), height: 1),
-                  _buildDropdownItem(
-                    icon: Icons.app_registration,
-                    title: "Vendor Registration",
-                    onTap: () {
-                      Get.back();
-                      // TODO: Navigate to Vendor Registration Page
-                      Get.to(() => VendorRegistrationMain());
-                    
-                    },
-                  ),
+                  ...dropdownItems,
                 ],
               ),
             ),
-            crossFadeState: isCorporateExpanded 
+            crossFadeState: isExpanded 
                 ? CrossFadeState.showSecond 
                 : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),

@@ -96,6 +96,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     {"name": "Jobs & Careers", "icon": Icons.work_outline_outlined},
     {"name": "Our Presence", "icon": Icons.location_city_outlined},
     {"name": "Divisions", "icon": Icons.dashboard_outlined},
+    {"name": "Bioburg Group", "icon": Icons.dashboard_outlined},
   ];
 
   final List<String> bannerImages = [

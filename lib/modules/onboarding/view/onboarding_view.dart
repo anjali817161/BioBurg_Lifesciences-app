@@ -27,16 +27,12 @@ class _OnboardingViewState extends State<OnboardingView> {
   void _autoSlide() {
     Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
-
-      int nextPage =
-          (controller.pageIndex.value + 1) % controller.onboardingPages.length;
-
+      int nextPage = (controller.pageIndex.value + 1) % controller.onboardingPages.length;
       pageController.animateToPage(
         nextPage,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
-
       controller.pageIndex.value = nextPage;
       _autoSlide();
     });
@@ -45,95 +41,173 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // PAGE VIEW
-            Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                onPageChanged: (index) => controller.pageIndex.value = index,
-                itemCount: controller.onboardingPages.length,
-                itemBuilder: (context, index) {
-                  final page = controller.onboardingPages[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 7,
-                          child: Image.asset(
-                            page.image,
-                            fit: BoxFit.contain,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.blue.shade50,
+              Colors.white,
+              Colors.blue.shade50,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // PAGE VIEW
+              Expanded(
+                child: PageView.builder(
+                  controller: pageController,
+                  onPageChanged: (index) => controller.pageIndex.value = index,
+                  itemCount: controller.onboardingPages.length,
+                  itemBuilder: (context, index) {
+                    final page = controller.onboardingPages[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Spacer(flex: 1),
+                          // IMAGE CONTAINER WITH CONSISTENT SIZE AND BLEND
+                          Obx(
+                            () => AnimatedOpacity(
+                              opacity: controller.pageIndex.value == index ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 500),
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 0.45,
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  gradient: RadialGradient(
+                                    colors: [
+                                      Colors.blue.withOpacity(0.1),
+                                      Colors.transparent,
+                                    ],
+                                    radius: 1.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Image.asset(
+                                  page.image,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 30),
-                        Text(
-                          page.title,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                          const Spacer(flex: 1),
+                          // TITLE
+                          Obx(
+                            () => AnimatedOpacity(
+                              opacity: controller.pageIndex.value == index ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 700),
+                              child: Text(
+                                page.title,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue.shade700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          page.subtitle,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            color: Colors.black54,
+                          const SizedBox(height: 16),
+                          // SUBTITLE
+                          Obx(
+                            () => AnimatedOpacity(
+                              opacity: controller.pageIndex.value == index ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 900),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Text(
+                                  page.subtitle,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.shade700,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          const SizedBox(height: 40),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-
-            // DOT INDICATORS
-            Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  controller.onboardingPages.length,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: controller.pageIndex.value == index ? 12 : 8,
-                    height: controller.pageIndex.value == index ? 12 : 8,
-                    decoration: BoxDecoration(
-                      color: controller.pageIndex.value == index
-                          ? Colors.blue
-                          : Colors.blue.withOpacity(0.3),
-                      shape: BoxShape.circle,
+              // DOT INDICATORS
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    controller.onboardingPages.length,
+                    (index) => AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      width: controller.pageIndex.value == index ? 32 : 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: controller.pageIndex.value == index
+                            ? Colors.blue.shade700
+                            : Colors.blue.shade200,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-
-            const SizedBox(height: 25),
-
-            // BUTTON
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.offAll(() => LoginScreen());
-                  // Get.offAll(() => MainNavigation());
-                },
-                child: const Text(
-                  'Get Started',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              const SizedBox(height: 30),
+              // BUTTON
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: Container(
+                  width: double.infinity,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue.shade600, Colors.blue.shade800],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.shade300.withOpacity(0.5),
+                        blurRadius: 12,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.offAll(() => LoginScreen());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: const Text(
+                      'Get Started',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
