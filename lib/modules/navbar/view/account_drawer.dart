@@ -118,7 +118,16 @@ class _AccountDrawerState extends State<AccountDrawer> {
                         title: "Delivery",
                         onTap: () {
                           Get.back();
-                          Get.to(() => VendorRegistrationMain());
+                          Get.to(() => VendorLoginPage());
+                        },
+                      ),
+                       Divider(color: Colors.white.withOpacity(0.2), height: 1),
+                      _buildDropdownItem(
+                        icon: Icons.app_registration,
+                        title: "Staff",
+                        onTap: () {
+                          Get.back();
+                          Get.to(() => VendorLoginPage());
                         },
                       ),
                     ],
@@ -128,7 +137,7 @@ class _AccountDrawerState extends State<AccountDrawer> {
                   
                   // B2B/B2C DROPDOWN
                   _buildDropdownSection(
-                    title: "B2B/B2C",
+                    title: "Business to Business(B2B)",
                     icon: Icons.business_center,
                     isExpanded: isB2BExpanded,
                     onTap: () {
@@ -236,31 +245,31 @@ class _AccountDrawerState extends State<AccountDrawer> {
                     Get.back();
                     Get.to(() => UserProfilePage());
                   }),
-                  _divider(),
-                  _buildListItem(Icons.shopping_cart, "Orders History", onTap: () {
-                    Get.back();
-                    Get.to(() => CartPage());
-                  }),
-                  _divider(),
-                  _buildListItem(Icons.favorite, "My Wishlist", onTap: () {
-                    Get.back();
-                    Get.to(() => WishlistPage());
-                  }),
-                  _divider(),
-                  _buildListItem(Icons.help, "FAQs", onTap: () {
-                    Get.back();
-                    // TODO: Navigate to FAQs page
-                  }),
-                  _divider(),
-                  _buildListItem(Icons.info, "About Us", onTap: () {
-                    Get.back();
-                    // TODO: Navigate to About Us page
-                  }),
-                  _divider(),
-                  _buildListItem(Icons.policy, "Policies", onTap: () {
-                    Get.back();
-                    // TODO: Navigate to Policies page
-                  }),
+                  // _divider(),
+                  // _buildListItem(Icons.shopping_cart, "Orders History", onTap: () {
+                  //   Get.back();
+                  //   Get.to(() => CartPage());
+                  // }),
+                  // _divider(),
+                  // _buildListItem(Icons.favorite, "My Wishlist", onTap: () {
+                  //   Get.back();
+                  //   Get.to(() => WishlistPage());
+                  // }),
+                  // _divider(),
+                  // _buildListItem(Icons.help, "FAQs", onTap: () {
+                  //   Get.back();
+                  //   // TODO: Navigate to FAQs page
+                  // }),
+                  // _divider(),
+                  // _buildListItem(Icons.info, "About Us", onTap: () {
+                  //   Get.back();
+                  //   // TODO: Navigate to About Us page
+                  // }),
+                  // _divider(),
+                  // _buildListItem(Icons.policy, "Policies", onTap: () {
+                  //   Get.back();
+                  //   // TODO: Navigate to Policies page
+                  // }),
                   _divider(),
                   _buildListItem(Icons.logout, "Logout", onTap: () {
                     _showLogoutDialog(context);

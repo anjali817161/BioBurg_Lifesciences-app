@@ -1,4 +1,5 @@
 import 'package:bioburg_lifescience/modules/profile/controller/profile_controller.dart';
+import 'package:bioburg_lifescience/modules/wishlist/view/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,122 +9,127 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 15),
-              _walletSection(),
-              const SizedBox(height: 15),
-              _orderStats(),
-              const SizedBox(height: 20),
-              _quickActions(),
-              const SizedBox(height: 20),
-              _profileOptions(),
-            ],
-          ),
+      backgroundColor: Colors.grey.shade100,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _header(),
+            const SizedBox(height: 20),
+            _quickTiles(),
+            const SizedBox(height: 20),
+            _orderStats(),
+            const SizedBox(height: 25),
+            _profileOptions(),
+            const SizedBox(height: 40),
+          ],
         ),
       ),
     );
   }
 
   // ------------------------------------------------------------------
-  // 🔹 HEADER SECTION
+  // 🔹 HEADER – Modern Pharmacy Style
   // ------------------------------------------------------------------
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        color: Color(0xff0A6CF0), // App Blue
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(25),
-          bottomRight: Radius.circular(25),
-        ),
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 35,
-            backgroundImage: AssetImage("assets/images/profile.png"),
+  Widget _header() {
+    return Obx(
+      () {
+        final name = controller.userName.value;
+        final letter = name.isNotEmpty ? name[0].toUpperCase() : "U";
+
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
+          decoration: const BoxDecoration(
+            color: Color(0xff0A6CF0),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(28),
+              bottomRight: Radius.circular(28),
+            ),
           ),
-          const SizedBox(width: 15),
-          Obx(() => Column(
+          child: Row(
+            children: [
+              // Circle with First Letter
+              CircleAvatar(
+                radius: 35,
+                backgroundColor: Colors.white,
+                child: Text(
+                  letter,
+                  style: const TextStyle(
+                    fontSize: 32,
+                    color: Color(0xff0A6CF0),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 18),
+
+              // Name + UserID
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    controller.userName.value,
+                    name,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   Text(
-                    controller.userEmail.value,
+                    "User ID: ${controller.userId.value}",
                     style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
                     ),
                   ),
                 ],
-              )),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // ------------------------------------------------------------------
+  // 🔹 TOP TILES (Wishlist / Cart / Settings)
+  // ------------------------------------------------------------------
+  Widget _quickTiles() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _tile(Icons.favorite, "Wishlist", Colors.pink.shade400, (){Get.to(() => WishlistPage());}),
+          _tile(Icons.shopping_cart, "My Cart", Colors.green.shade500, (){}),
+          _tile(Icons.settings, "Settings", Colors.blue.shade600, (){}),
         ],
       ),
     );
   }
 
-  // ------------------------------------------------------------------
-  // 🔹 WALLET SECTION
-  // ------------------------------------------------------------------
-  Widget _walletSection() {
-    return Obx(
-      () => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue.shade50, Colors.blue.shade100],
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blue.shade100,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _walletItem(Icons.account_balance_wallet, "Wallet",
-                controller.walletBalance.value),
-            _walletItem(Icons.star, "Reward Points",
-                controller.rewardPoints.value),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _walletItem(IconData icon, String title, String value) {
+  Widget _tile(IconData icon, String title, Color color, VoidCallback onTap) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(icon, color: Colors.blue, size: 28),
-        const SizedBox(height: 5),
-        Text(
-          value,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              color: color.withOpacity(.15),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 28),
+          ),
         ),
+        const SizedBox(height: 6),
         Text(
           title,
           style: const TextStyle(
-            color: Colors.black54,
             fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
           ),
         ),
       ],
@@ -131,35 +137,39 @@ class UserProfilePage extends StatelessWidget {
   }
 
   // ------------------------------------------------------------------
-  // 🔹 ORDER STATS (Modern Glass Cards)
+  // 🔹 ORDER STATS – Glass Cards
   // ------------------------------------------------------------------
   Widget _orderStats() {
     return Obx(
-      () => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _statCard("Total Orders", controller.totalOrders.value.toString(),
-              Icons.shopping_bag),
-          _statCard("Pending", controller.pendingOrders.value.toString(),
-              Icons.timer),
-          _statCard("Delivered", controller.deliveredOrders.value.toString(),
-              Icons.check_circle),
-        ],
+      () => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _statCard("Total Orders", controller.totalOrders.value.toString(),
+                Icons.receipt_long, Colors.blue),
+            _statCard("Pending", controller.pendingOrders.value.toString(),
+                Icons.timer, Colors.orange),
+            _statCard("Delivered", controller.deliveredOrders.value.toString(),
+                Icons.check_circle, Colors.green),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _statCard(String title, String value, IconData icon) {
+  Widget _statCard(
+      String title, String value, IconData icon, Color color) {
     return Container(
-      width: 105,
-      padding: const EdgeInsets.all(12),
+      width: 110,
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(.95),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.blue.shade100),
+        border: Border.all(color: Colors.black12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.black.withOpacity(.05),
             blurRadius: 6,
             offset: const Offset(0, 3),
           )
@@ -167,114 +177,68 @@ class UserProfilePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, color: Colors.blue, size: 26),
-          const SizedBox(height: 6),
+          Icon(icon, color: color, size: 28),
+          const SizedBox(height: 8),
           Text(
             value,
             style: const TextStyle(
-              fontSize: 18,
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
-            ),
+                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
           ),
           Text(
             title,
-            style: const TextStyle(color: Colors.black54, fontSize: 12),
-          )
+            style: const TextStyle(fontSize: 12, color: Colors.black54),
+          ),
         ],
       ),
     );
   }
 
   // ------------------------------------------------------------------
-  // 🔹 QUICK ACTIONS
-  // ------------------------------------------------------------------
-  Widget _quickActions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _actionButton(Icons.favorite, "Wishlist"),
-        _actionButton(Icons.shopping_cart, "My Cart"),
-        _actionButton(Icons.notifications, "Alerts"),
-      ],
-    );
-  }
-
-  Widget _actionButton(IconData icon, String title) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: Colors.blue.shade50,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: Colors.blue, size: 26),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-          ),
-        )
-      ],
-    );
-  }
-
-  // ------------------------------------------------------------------
-  // 🔹 PROFILE OPTIONS LIST
+  // 🔹 PROFILE OPTIONS LIST (Modern Tiles)
   // ------------------------------------------------------------------
   Widget _profileOptions() {
     return Column(
       children: [
-        _optionTile("My Orders", Icons.receipt_long),
-        _optionTile("Manage Address", Icons.location_on),
-        _optionTile("Payment Methods", Icons.payment),
-        _optionTile("Privacy & Security", Icons.lock),
-        _optionTile("Help & Support", Icons.help_outline),
-        _optionTile("Settings", Icons.settings),
-        const SizedBox(height: 20),
-        _logoutButton(),
+        _optionTile("My Orders", Icons.shopping_bag),
+        _optionTile("FAQ", Icons.medical_services),
+        _optionTile("Help & Support", Icons.support_agent),
+        _optionTile("About Us", Icons.info_outline),
       ],
     );
   }
 
   Widget _optionTile(String title, IconData icon) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.blue, size: 28),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-    );
-  }
-
-  // ------------------------------------------------------------------
-  // 🔹 LOGOUT BUTTON
-  // ------------------------------------------------------------------
-  Widget _logoutButton() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red.shade600,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.05),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          )
+        ],
+      ),
+      child: ListTile(
+        leading: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.blue.shade50,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: Colors.blue, size: 26),
         ),
-        child: const Text(
-          "Logout",
-          style: TextStyle(fontSize: 16, color: Colors.white),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 18),
       ),
     );
   }
